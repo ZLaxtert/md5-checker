@@ -3,6 +3,7 @@
 error_reporting(0);
 ini_set('memory_limit', '-1');
 
+//INPUT LISTS
 system("clear");
 echo banner();
 enterlist:
@@ -14,19 +15,25 @@ if(empty($listname) || !file_exists($listname)) {
 }
 $lists = array_unique(explode("\n",str_replace("\r","",file_get_contents($listname))));
 
+//COUNT
 $total = count($lists);
 $s     = 0;
 $d     = 0;
 
 echo PHP_EOL."[!] TOTAL $total LISTS [!]".PHP_EOL.PHP_EOL;
 global $jam, $result;
+
 foreach($lists as $list){
     jam();
+    
+    //EXPLODE
     if(strpos($list, "|") !== false) list($email, $pwd) = explode("|", $list);
-	else if(strpos($list, ":") !== false) list($email, $pwd) = explode(":", $list);
-	else $email = $list;
-	if(empty($email)) continue;
-	$email = str_replace(" ", "", $email);
+    else if(strpos($list, ":") !== false) list($email, $pwd) = explode(":", $list);
+    else $email = $list;
+    if(empty($email)) continue;
+    $email = str_replace(" ", "", $email);
+    
+    //CURL
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, "https://api.banditcoding.xyz/md5/?md5=$list&type=md5");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -36,6 +43,7 @@ foreach($lists as $list){
     $result      = $json['data']['info']['result'];
     curl_close($ch);
 
+    //RESPONSE
     if(strpos($res, '"status":"success"')){
         $s++;
         file_put_contents("result/success.txt", "[$jam] SUCCESS => ".$email."|".$result." @Zlaxtert".PHP_EOL, FILE_APPEND);
@@ -48,9 +56,8 @@ foreach($lists as $list){
         file_put_contents("result/failed.txt", "[$jam] FAILED => ".$list." @Zlaxtert".PHP_EOL, FILE_APPEND);
         echo "[$jam] FAILED => $list @Zlaxtert".PHP_EOL;
     }
-
-
 }
+
 echo PHP_EOL;
 echo "=================[SUCCES]=================".PHP_EOL;
 echo " INFO :".PHP_EOL;
