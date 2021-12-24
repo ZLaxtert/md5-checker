@@ -2,8 +2,6 @@
 
 error_reporting(0);
 ini_set('memory_limit', '-1');
-date_default_timezone_set("Asia/Jakarta");
-$date = date("l, d-m-Y (H:m:s)");
 
 system("clear");
 echo banner();
