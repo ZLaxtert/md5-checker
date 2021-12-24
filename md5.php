@@ -53,7 +53,7 @@ foreach($lists as $list){
         exit();
     }else{
         $d++;
-        file_put_contents("result/failed.txt", "[$jam] FAILED => ".$list." @Zlaxtert".PHP_EOL, FILE_APPEND);
+        file_put_contents("result/failed.txt", "[$jam] FAILED => ".$email."|".$pwd." @Zlaxtert".PHP_EOL, FILE_APPEND);
         echo "[$jam] FAILED => $list @Zlaxtert".PHP_EOL;
     }
 }
