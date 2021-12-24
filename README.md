@@ -18,3 +18,6 @@
 
 ## Screenshot
 <img src="img/bg.png">
+
+## Note
+Results saved in folder 'result'
