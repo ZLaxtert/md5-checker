@@ -21,14 +21,12 @@ $s     = 0;
 $d     = 0;
 
 echo PHP_EOL."[!] TOTAL $total LISTS [!]".PHP_EOL.PHP_EOL;
-global $jam, $result;
 
 foreach($lists as $list){
-    jam();
     
     //EXPLODE
-    if(strpos($list, "|") !== false) list($email, $pwd) = explode("|", $list);
-    else if(strpos($list, ":") !== false) list($email, $pwd) = explode(":", $list);
+    if(strpos($list, "|") !== false) list($email, $md5) = explode("|", $list);
+    else if(strpos($list, ":") !== false) list($email, $md5) = explode(":", $list);
     else $email = $list;
     if(empty($email)) continue;
     $email = str_replace(" ", "", $email);
@@ -46,15 +44,15 @@ foreach($lists as $list){
     //RESPONSE
     if(strpos($res, '"status":"success"')){
         $s++;
-        file_put_contents("result/success.txt", "[$jam] SUCCESS => ".$email."|".$result." @Zlaxtert".PHP_EOL, FILE_APPEND);
-        echo "[$jam] SUCCESS => $email|$result @Zlaxtert".PHP_EOL;
+        file_put_contents("result/success.txt", "[".jam()."] SUCCESS => ".$email."|".$result." @Zlaxtert".PHP_EOL, FILE_APPEND);
+        echo "[".jam()."] SUCCESS => $email|$result @Zlaxtert".PHP_EOL;
     }elseif(strpos($res, '"status":"failed"')){
         echo "[!] INVALID PARAMETERS [!]".PHP_EOL;
         exit();
     }else{
         $d++;
-        file_put_contents("result/failed.txt", "[$jam] FAILED => ".$email."|".$pwd." @Zlaxtert".PHP_EOL, FILE_APPEND);
-        echo "[$jam] FAILED => $list @Zlaxtert".PHP_EOL;
+        file_put_contents("result/failed.txt", "[".jam()."] FAILED => ".$email."|".$md5." @Zlaxtert".PHP_EOL, FILE_APPEND);
+        echo "[".jam()."] FAILED => $list @Zlaxtert".PHP_EOL;
     }
 }
 
@@ -105,7 +103,6 @@ function banner(){
 }
 
 function jam(){
-    global $jam;
     $date = new DateTime();
     $jam = $date->format("H:m:s");
     return $jam;
